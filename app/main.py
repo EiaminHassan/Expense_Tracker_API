@@ -94,3 +94,18 @@ def add_expense_Alchemy(expense: Expense, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_expense)
     return {"message": "Expense added successfully using SQLAlchemy"}
+
+# get all data using SQLAlchemy
+@app.get("/get_Alchemy")
+def get_expenses_Alchemy(db: Session = Depends(get_db)):
+    expenses = db.query(models.Expense).all()
+    return expenses
+
+# get expense by id using SQLAlchemy
+@app.get("/get_Alchemy/{expense_id}")
+def get_expense_by_id_Alchemy(expense_id: int, db: Session = Depends(get_db)):
+    expense = db.query(models.Expense).filter(models.Expense.id == expense_id).first()
+    if expense:
+        return expense
+    else:
+        return {"message": f"Expense with id {expense_id} not found"}
