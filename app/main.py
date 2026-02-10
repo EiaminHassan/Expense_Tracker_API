@@ -76,6 +76,21 @@ def update_expense(expense_id: int, expense: Expense):
     conn.commit()
     return {"message": "Expense updated successfully"}
 
+# endpoint to test SQLAlchemy connection
 @app.get("/expense_Alchemy")
 def get_expenses_Alchemy(db: Session = Depends(get_db)):
     return {"Status": "SQLAlchemy is working!"}
+
+# post data using SQLAlchemy
+@app.post("/add_Alchemy")
+def add_expense_Alchemy(expense: Expense, db: Session = Depends(get_db)):
+    new_expense = models.Expense(
+        id=expense.id,
+        description=expense.description,
+        amount=expense.amount,
+        date=expense.date
+    )
+    db.add(new_expense)
+    db.commit()
+    db.refresh(new_expense)
+    return {"message": "Expense added successfully using SQLAlchemy"}
