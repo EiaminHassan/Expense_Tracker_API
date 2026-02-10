@@ -125,3 +125,13 @@ def update_expense_Alchemy(expense_id: int, expense: Expense, db: Session = Depe
         return {"message": f"Expense with id {expense_id} not found"}
     
 
+# delete expense by id using SQLAlchemy
+@app.delete("/delete_Alchemy/{expense_id}")
+def delete_expense_Alchemy(expense_id: int, db: Session = Depends(get_db)):
+    existing_expense = db.query(models.Expense).filter(models.Expense.id == expense_id).first()
+    if existing_expense:
+        db.delete(existing_expense)
+        db.commit()
+        return {"message": "Expense deleted successfully using SQLAlchemy"}
+    else:
+        return {"message": f"Expense with id {expense_id} not found"}
