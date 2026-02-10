@@ -109,3 +109,19 @@ def get_expense_by_id_Alchemy(expense_id: int, db: Session = Depends(get_db)):
         return expense
     else:
         return {"message": f"Expense with id {expense_id} not found"}
+
+# update expense by id using SQLAlchemy
+@app.put("/update_Alchemy/{expense_id}")
+def update_expense_Alchemy(expense_id: int, expense: Expense, db: Session = Depends(get_db)):
+    existing_expense = db.query(models.Expense).filter(models.Expense.id == expense_id).first()
+    if existing_expense:
+        existing_expense.id = expense.id
+        existing_expense.description = expense.description
+        existing_expense.amount = expense.amount
+        existing_expense.date = expense.date
+        db.commit()
+        return {"message": "Expense updated successfully using SQLAlchemy"}
+    else:
+        return {"message": f"Expense with id {expense_id} not found"}
+    
+
