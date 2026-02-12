@@ -124,3 +124,12 @@ def delete_expense_Alchemy(expense_id: int, db: Session = Depends(get_db)):
         return {"message": "Expense deleted successfully using SQLAlchemy"}
     else:
         return {"message": f"Expense with id {expense_id} not found"}
+
+#    
+@app.post("/user_Alchemy", response_model=schemas.UserCreate)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    new_user = models.User(**user.model_dump())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user

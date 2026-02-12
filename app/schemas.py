@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 # Datamodel for the request body
 class Expense(BaseModel):
@@ -10,3 +10,9 @@ class Expense(BaseModel):
 class ExpenseResponse(Expense):
     class Config:
         orm_mode = True
+
+# Datamodel for user creation
+class UserCreate(BaseModel):
+    user_name: str
+    email: EmailStr
+    password: str
