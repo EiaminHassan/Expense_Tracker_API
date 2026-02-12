@@ -7,6 +7,7 @@ class Expense(BaseModel):
     amount: float
     date: str
 
+# Datamodel for the Expenses response body
 class ExpenseResponse(Expense):
     class Config:
         orm_mode = True

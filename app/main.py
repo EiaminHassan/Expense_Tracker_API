@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from . import models, schemas
+from . import models, schemas, utilis
 from sqlalchemy.orm import Session
 from .database import engine, get_db
 
@@ -125,9 +125,11 @@ def delete_expense_Alchemy(expense_id: int, db: Session = Depends(get_db)):
     else:
         return {"message": f"Expense with id {expense_id} not found"}
 
-#    
+# create user using SQLAlchemy
 @app.post("/user_Alchemy", response_model=schemas.UserCreate)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    hashed_password = utilis.hash_password(user.password)
+    user.password = hashed_password
     new_user = models.User(**user.model_dump())
     db.add(new_user)
     db.commit()
