@@ -6,26 +6,34 @@ Basically I am learning FastAPI and doing hands-on work through this project.
 
 - Simple CRUD API for expenses
 - Uses PostgreSQL for storage
-- Includes a small SQLAlchemy smoke-test route
+- Includes basic user creation and listing
 
 ## Endpoints
 
-- GET / - list expenses
-- POST /add - create expense
-- PUT /update/{expense_id} - update expense
-- DELETE /delete/{expense_id} - delete expense
-- GET /expense_Alchemy - SQLAlchemy check
+Expenses
+
+- POST /expenses/ - create expense
+- GET /expenses/ - list expenses
+- GET /expenses/{expense_id} - get expense by id
+- PUT /expenses/{expense_id} - update expense by id
+- DELETE /expenses/{expense_id} - delete expense by id
+
+Users
+
+- POST /users/ - create user
+- GET /users/ - list users
 
 ## Requirements
 
 - Python 3.10+
 - PostgreSQL running locally
 - Packages: fastapi, uvicorn, psycopg2, sqlalchemy, pydantic
+- Plan: add a requirements.txt for dependency installs
 
 ## Quick start
 
 1. Create a Postgres database named expenses_db
-2. Update credentials in app/main.py and app/database.py if needed
+2. Update credentials in app/database.py if needed
 3. Install dependencies
 4. Run the app
 
@@ -35,5 +43,5 @@ Example run:
 
 ## Notes
 
-- Tables are created on startup via SQLAlchemy.
+- Tables are defined in app/models.py; there is no automatic create-all hook in code.
 - The Expense model has: id, description, amount, date.
